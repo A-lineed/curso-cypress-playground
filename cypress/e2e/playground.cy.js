@@ -66,7 +66,7 @@ describe('template spec', () => {
     cy.contains('#select-selection', 'VIP').should('be.visible')
   })
 
-  it.only('Selects multiple fruits via the dropdown field and asserts on the selection', () => {
+  it('Selects multiple fruits via the dropdown field and asserts on the selection', () => {
     cy.contains('#fruits-paragraph', "You haven't selected any fruit yet.").should('be.visible')
 
     cy.get('#fruit').select(['Apple', 'Banana', 'Cherry'])
@@ -76,5 +76,11 @@ describe('template spec', () => {
     cy.contains('#fruits-paragraph', "You haven't selected any fruit yet.").should('not.exist')
   })
 
+  it.only('Uploads a file and asserts the corect file name appears as a paragraph', () => {
+    cy.get('#file-upload').selectFile('./cypress/fixtures/example.json')
 
+    cy.contains('#file', 'The following file has been selected for upload: example.json').should('be.visible')
+  })
+
+  
 })
