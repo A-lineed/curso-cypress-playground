@@ -20,7 +20,7 @@ describe('template spec', () => {
     cy.contains('#signature', 'Aline Edvania').should('be.visible')
   })
 
-  it.only('Types in the signature field, checks the checkbox to see the preview, then unchecks it', () => {
+  it('Types in the signature field, checks the checkbox to see the preview, then unchecks it', () => {
     cy.get('#signature-textarea-with-checkbox').type('Aline Edvania')
 
     cy.get('#signature-checkbox').check()
@@ -32,6 +32,23 @@ describe('template spec', () => {
       .should('not.be.checked')
     
       cy.contains('#signature-triggered-by-check', 'Aline Edvania').should('not.exist')
+  })
+
+  it('Check both possible radios and asserts if it is "on" or "off"', () => {
+
+    cy.contains('#on-off', 'ON').should('be.visible')
+
+    cy.get('#off').check()
+
+    cy.contains('#on-off', 'OFF').should('be.visible')
+    cy.contains('#on-off', 'ON').should('not.exist')
+
+    cy.get('#on').check()
+
+    cy.contains('#on-off', 'ON').should('be.visible')
+    cy.contains('#on-off', 'OFF').should('not.exist')
+
+
   })
 
 
