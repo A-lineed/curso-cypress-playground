@@ -30,8 +30,8 @@ describe('template spec', () => {
 
     cy.get('#signature-checkbox').uncheck()
       .should('not.be.checked')
-    
-      cy.contains('#signature-triggered-by-check', 'Aline Edvania').should('not.exist')
+
+    cy.contains('#signature-triggered-by-check', 'Aline Edvania').should('not.exist')
   })
 
   it('Check both possible radios and asserts if it is "on" or "off"', () => {
@@ -48,7 +48,32 @@ describe('template spec', () => {
     cy.contains('#on-off', 'ON').should('be.visible')
     cy.contains('#on-off', 'OFF').should('not.exist')
 
+  })
 
+  it('Selects a type via the dropdown field and asserts on the selection', () => {
+    cy.contains('#select-selection', "You haven't selected a type yet.").should('be.visible')
+
+    cy.get('#selection-type').select('VIP')
+
+    cy.contains('#select-selection', 'VIP').should('be.visible')
+
+    cy.get('#selection-type').select('vip')
+
+    cy.contains('#select-selection', 'VIP').should('be.visible')
+
+    cy.get('#selection-type').select(3)
+
+    cy.contains('#select-selection', 'VIP').should('be.visible')
+  })
+
+  it.only('Selects multiple fruits via the dropdown field and asserts on the selection', () => {
+    cy.contains('#fruits-paragraph', "You haven't selected any fruit yet.").should('be.visible')
+
+    cy.get('#fruit').select(['Apple', 'Banana', 'Cherry'])
+    cy.contains('#fruits-paragraph', "You've selected the following fruits: apple, banana, cherry")
+      .should('be.visible')
+
+    cy.contains('#fruits-paragraph', "You haven't selected any fruit yet.").should('not.exist')
   })
 
 
