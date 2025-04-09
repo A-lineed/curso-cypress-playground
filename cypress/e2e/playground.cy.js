@@ -82,7 +82,7 @@ describe('template spec', () => {
     cy.contains('#file', 'The following file has been selected for upload: example.json').should('be.visible')
   })
 
-  it.only('Click a button and triggers a request', () => {
+  it('Click a button and triggers a request', () => {
     cy.intercept('GET', 'https://jsonplaceholder.typicode.com/todos/1')
       .as('getTodo')
 
@@ -95,6 +95,24 @@ describe('template spec', () => {
     cy.contains('li', 'Title: delectus aut autem').should('be.visible')
     cy.contains('li', 'Completed: false').should('be.visible')
     cy.contains('li', 'User ID: 1').should('be.visible')
+
+  })
+
+  it('Clicks a button and triggers a stubbed request', () => {
+    const todo = require('../fixtures/todo.json')
+
+    cy.intercept('GET', 'https://jsonplaceholder.typicode.com/todos/1', { fixture: 'todo' }).as('getTodo')
+
+    cy.contains('button', 'Get TODO').click()
+
+    cy.wait('@getTodo')
+      .its('response.statusCode')
+      .should('be.equal', 200)
+
+    cy.contains('li', `TODO ID: ${todo.id}`).should('be.visible')
+    cy.contains('li', `Title: ${todo.title}`).should('be.visible')
+    cy.contains('li', `Completed: ${todo.completed}`).should('be.visible')
+    cy.contains('li', `User ID: ${todo.userId}`).should('be.visible')
 
   })
 
