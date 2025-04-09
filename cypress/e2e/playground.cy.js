@@ -116,7 +116,7 @@ describe('template spec', () => {
 
   })
 
-  it.only('Clicks a button and simulates an API failure', () => {
+  it('Clicks a button and simulates an API failure', () => {
     cy.intercept('GET', 'https://jsonplaceholder.typicode.com/todos/1', {
       statusCode: 500
     }).as('serverFailure')
@@ -131,6 +131,22 @@ describe('template spec', () => {
       'span',
       'Oops, something went wrong. Refresh the page and try again.'
     ).should('be.visible')
+  })
+
+  it.only('Clicks a button and simulates a network failure', () => {
+    cy.intercept('GET', 'https://jsonplaceholder.typicode.com/todos/1', {
+      forceNetworkError: true
+    }).as('networkError')
+
+    cy.contains('button', 'Get TODO').click()
+
+    cy.wait('@networkError')
+
+    cy.contains(
+      'span',
+      'Oops, something went wrong. Check your internet connection, refresh the page, and try again.'
+    ).should('be.visible')
+
   })
 
 })
