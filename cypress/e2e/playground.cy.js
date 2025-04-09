@@ -133,7 +133,7 @@ describe('template spec', () => {
     ).should('be.visible')
   })
 
-  it.only('Clicks a button and simulates a network failure', () => {
+  it('Clicks a button and simulates a network failure', () => {
     cy.intercept('GET', 'https://jsonplaceholder.typicode.com/todos/1', {
       forceNetworkError: true
     }).as('networkError')
@@ -149,4 +149,30 @@ describe('template spec', () => {
 
   })
 
+  it('Makes an HTTP request and asserts oh the returned astatus code', () => {
+    cy.request('GET', 'https://jsonplaceholder.typicode.com/todos/1')
+      .its('status')
+      .should('be.equal', 200)
+
+    cy.request('GET', 'https://jsonplaceholder.typicode.com/todos/1')
+      .its('body')
+      .should('have.property', 'title')
+      .and('eq', 'delectus aut autem')
+
+    cy.request('GET', 'https://jsonplaceholder.typicode.com/todos/1')
+      .its('body')
+      .should('have.property', 'completed')
+      .and('eq', false)
+
+  });
+
+  Cypress._.times(10, index => {
+    it(`Selects ${index + 1} out of 10`, () => {
+      cy.get('#level')
+        .invoke('val', index + 1)
+        .trigger('change')
+
+      cy.contains('p', `You're on level: ${index + 1}`).should('be.visible')
+    })
+  })
 })
