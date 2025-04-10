@@ -223,10 +223,18 @@ describe('template spec', () => {
 
   })
 
-  it.only('Types an incorrect code and asserts on the error message', () => {
+  it('Types an incorrect code and asserts on the error message', () => {
     cy.get('#code').type('123456')
     cy.contains('button', 'Submit').click()
     cy.contains("The provided code isn't correct. Please, try again.").should('be.visible')
+  })
+
+  it('Downloads a fila, reads it, and asserts on the content', () => {
+    cy.contains('a', 'Download a text file').click()
+
+    cy.readFile('cypress/downloads/example.txt')
+      .should('be.equal', 'Hello, World!')
+
   })
 
 })
