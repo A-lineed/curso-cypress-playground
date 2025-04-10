@@ -176,11 +176,28 @@ describe('template spec', () => {
     })
   })
 
-  it.only('Selects a date and asserts the correct date has been displayed', () => {
+  it('Selects a date and asserts the correct date has been displayed', () => {
     cy.get('#date').type('2025-04-10').blur()
 
     cy.contains('p', "The date you've selected is: 2025-04-10").should('be.visible')
   })
-  
-  
+
+
+  it.only('Types a password based on a protected variable', () => {
+    cy.get('#password').type(Cypress.env('password'))
+
+    cy.get('#show-password-checkbox').check()
+
+    cy.get('#password-input input[type="password"]').should('not.exist')
+    cy.get('#password-input input[type="text"]')
+      .should('be.visible')
+      .and('have.value', Cypress.env('password'))
+
+    cy.get('#show-password-checkbox').uncheck()
+
+    cy.get('#password-input input[type="password"]').should('be.visible')
+    cy.get('#password-input input[type="text"]').should('not.exist')
+  })
+
+
 })
