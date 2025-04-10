@@ -208,9 +208,25 @@ describe('template spec', () => {
     cy.get('ul#animals li').should('have.length', 5)
   })
 
-  it.only('Freezes the browser clock and asserts the frozen date is 2025-04-10', () => {
+  it('Freezes the browser clock and asserts the frozen date is 2025-04-10', () => {
     cy.contains('P', 'Current date: 2024-04-15').should('be.visible')
   })
 
+  it('Copies the code, types it, submits it, then asserts on the sucess message', () => {
+    cy.get('#timestamp')
+      .then(element => {
+        const code = element[0].innerText
+        cy.get('#code').type(code)
+        cy.contains('button', 'Submit').click()
+        cy.contains("Congrats! You've entered the correct code.").should('be.visible')
+      })
+
+  })
+
+  it.only('Types an incorrect code and asserts on the error message', () => {
+    cy.get('#code').type('123456')
+    cy.contains('button', 'Submit').click()
+    cy.contains("The provided code isn't correct. Please, try again.").should('be.visible')
+  })
 
 })
