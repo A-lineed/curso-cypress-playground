@@ -184,14 +184,15 @@ describe('template spec', () => {
 
 
   it.only('Types a password based on a protected variable', () => {
-    cy.get('#password').type(Cypress.env('password'))
+    cy.get('#password')
+      .type(Cypress.env('password'), { log: false })
 
     cy.get('#show-password-checkbox').check()
 
     cy.get('#password-input input[type="password"]').should('not.exist')
     cy.get('#password-input input[type="text"]')
       .should('be.visible')
-      .and('have.value', Cypress.env('password'))
+      .and('have.value', Cypress.env('password'), { log: false })
 
     cy.get('#show-password-checkbox').uncheck()
 
