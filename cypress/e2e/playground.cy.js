@@ -175,4 +175,12 @@ describe('template spec', () => {
       cy.contains('p', `You're on level: ${index + 1}`).should('be.visible')
     })
   })
+
+  it.only('Selects a date and asserts the correct date has been displayed', () => {
+    cy.get('#date').type('2025-04-10').blur()
+
+    cy.contains('p', "The date you've selected is: 2025-04-10").should('be.visible')
+  })
+  
+  
 })
