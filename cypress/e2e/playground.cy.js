@@ -183,7 +183,7 @@ describe('template spec', () => {
   })
 
 
-  it.only('Types a password based on a protected variable', () => {
+  it('Types a password based on a protected variable', () => {
     cy.get('#password')
       .type(Cypress.env('password'), { log: false })
 
@@ -198,6 +198,10 @@ describe('template spec', () => {
 
     cy.get('#password-input input[type="password"]').should('be.visible')
     cy.get('#password-input input[type="text"]').should('not.exist')
+  })
+
+  it('Counts the number of animals in a list', () => {
+    cy.get('ul#animals li').should('have.length', 5)
   })
 
 
