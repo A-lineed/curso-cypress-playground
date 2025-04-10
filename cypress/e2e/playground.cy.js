@@ -1,5 +1,9 @@
 describe('template spec', () => {
   beforeEach('', () => {
+
+    const now = new Date(Date.UTC(2024, 3, 15))
+    cy.clock(now)
+
     cy.visit('https://cypress-playground.s3.eu-central-1.amazonaws.com/index.html')
   })
 
@@ -202,6 +206,10 @@ describe('template spec', () => {
 
   it('Counts the number of animals in a list', () => {
     cy.get('ul#animals li').should('have.length', 5)
+  })
+
+  it.only('Freezes the browser clock and asserts the frozen date is 2025-04-10', () => {
+    cy.contains('P', 'Current date: 2024-04-15').should('be.visible')
   })
 
 
